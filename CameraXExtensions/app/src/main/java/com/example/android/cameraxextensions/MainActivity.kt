@@ -19,6 +19,8 @@ package com.example.android.cameraxextensions
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +43,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import android.util.Log
 
 /**
  * Displays the camera preview with camera controls and available extensions. Tapping on the shutter
@@ -55,6 +58,48 @@ class MainActivity : AppCompatActivity() {
         ExtensionMode.BOKEH to R.string.camera_mode_bokeh,
         ExtensionMode.NONE to R.string.camera_mode_none,
     )
+
+    // ==========================
+    lateinit var mainHandler: Handler
+
+    private val updateTextTask = object : Runnable {
+        override fun run() {
+            minusOneSecond()
+            mainHandler.postDelayed(this, 10000)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mainHandler.removeCallbacks(updateTextTask)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainHandler.post(updateTextTask)
+    }
+
+    var INITIAL_VALUE = 1000
+    var secondsLeft = INITIAL_VALUE
+
+    companion object {
+        private const val TAG: String = "DanluckTrace"
+    }
+
+    fun minusOneSecond() {
+
+        Log.d(TAG, String.format("value = %d", secondsLeft));
+
+        if (secondsLeft > 0) {
+            if (secondsLeft < INITIAL_VALUE) {
+                cameraExtensionsViewModel.capturePhoto()
+            }
+
+            secondsLeft -= 1
+        }
+    }
+
+    // ==========================
 
     // tracks the current view state
     private val captureScreenViewState = MutableStateFlow(CaptureScreenViewState())
@@ -78,6 +123,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d(TAG, "DEBUG_TRACE_0")
 
         setContentView(R.layout.activity_main)
 
@@ -292,6 +339,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+
+        mainHandler = Handler(Looper.getMainLooper())
     }
 
     private suspend fun closePhotoPreview() {

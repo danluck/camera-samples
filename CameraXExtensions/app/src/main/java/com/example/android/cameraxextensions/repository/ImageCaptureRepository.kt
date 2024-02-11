@@ -26,6 +26,9 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import com.example.android.cameraxextensions.R
 import java.io.File
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -72,5 +75,6 @@ class ImageCaptureRepository internal constructor(private val rootDirectory: Fil
     fun createImageOutputFile(): File = File(rootDirectory, generateFilename(PHOTO_EXTENSION))
 
     private fun generateFilename(extension: String): String =
-        UUID.randomUUID().toString() + extension
+        SimpleDateFormat("yyyy_MM_dd__HH_mm_ss").format(Date()) + extension
+        //UUID.randomUUID().toString() + extension
 }

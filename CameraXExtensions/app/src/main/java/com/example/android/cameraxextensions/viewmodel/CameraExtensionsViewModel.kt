@@ -17,6 +17,7 @@
 package com.example.android.cameraxextensions.viewmodel
 
 import android.app.Application
+import android.util.Size
 import androidx.camera.core.*
 import androidx.camera.core.CameraSelector.LensFacing
 import androidx.camera.extensions.ExtensionMode
@@ -59,7 +60,8 @@ class CameraExtensionsViewModel(
     private var camera: Camera? = null
 
     private val imageCapture = ImageCapture.Builder()
-        .setTargetAspectRatio(AspectRatio.RATIO_16_9)
+        //.setTargetAspectRatio(AspectRatio.RATIO_16_9)
+        .setTargetResolution(Size(1920, 1080))
         .build()
 
     private val preview = Preview.Builder()
@@ -111,6 +113,7 @@ class CameraExtensionsViewModel(
             ).filter { extensionMode ->
                 extensionsManager.isExtensionAvailable(cameraSelector, extensionMode)
             }
+
 
             // prepare the new camera UI state which is now in the READY state and contains the list
             // of available extensions, available lens faces.
