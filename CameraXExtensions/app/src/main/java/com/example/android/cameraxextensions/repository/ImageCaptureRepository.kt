@@ -76,5 +76,4 @@ class ImageCaptureRepository internal constructor(private val rootDirectory: Fil
 
     private fun generateFilename(extension: String): String =
         SimpleDateFormat("yyyy_MM_dd__HH_mm_ss").format(Date()) + extension
-        //UUID.randomUUID().toString() + extension
 }

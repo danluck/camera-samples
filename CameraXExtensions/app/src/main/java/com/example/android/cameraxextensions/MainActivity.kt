@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity() {
 
     private val updateTextTask = object : Runnable {
         override fun run() {
-            minusOneSecond()
-            mainHandler.postDelayed(this, 10000)
+            doPeriodicAction()
+            mainHandler.postDelayed(this, 60000)
         }
     }
 
@@ -80,22 +80,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     var INITIAL_VALUE = 1000
-    var secondsLeft = INITIAL_VALUE
+    var repeatCountLeft = INITIAL_VALUE
 
     companion object {
         private const val TAG: String = "DanluckTrace"
     }
 
-    fun minusOneSecond() {
+    fun doPeriodicAction() {
+        Log.d(TAG, String.format("value = %d", repeatCountLeft));
 
-        Log.d(TAG, String.format("value = %d", secondsLeft));
-
-        if (secondsLeft > 0) {
-            if (secondsLeft < INITIAL_VALUE) {
+        if (repeatCountLeft > 0) {
+            if (repeatCountLeft < INITIAL_VALUE) {
                 cameraExtensionsViewModel.capturePhoto()
             }
 
-            secondsLeft -= 1
+            repeatCountLeft -= 1
         }
     }
 
