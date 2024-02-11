@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         mainHandler.post(updateTextTask)
     }
 
-    var INITIAL_VALUE = 1000
+    var INITIAL_VALUE = 1000000
     var repeatCountLeft = INITIAL_VALUE
 
     companion object {
