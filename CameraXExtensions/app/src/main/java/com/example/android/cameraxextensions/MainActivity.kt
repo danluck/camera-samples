@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     private val updateTextTask = object : Runnable {
         override fun run() {
             doPeriodicAction()
-            mainHandler.postDelayed(this, 180000)
+            mainHandler.postDelayed(this, 600000)
         }
     }
 
