@@ -60,12 +60,12 @@ class CameraExtensionsViewModel(
     private var camera: Camera? = null
 
     private val imageCapture = ImageCapture.Builder()
-        //.setTargetAspectRatio(AspectRatio.RATIO_16_9)
-        .setTargetResolution(Size(1920, 1080))
+        .setTargetAspectRatio(AspectRatio.RATIO_DEFAULT)
+        //.setTargetResolution(Size(4160, 1920))
         .build()
 
     private val preview = Preview.Builder()
-        .setTargetAspectRatio(AspectRatio.RATIO_16_9)
+        .setTargetAspectRatio(AspectRatio.RATIO_DEFAULT)
         .build()
 
     private val _cameraUiState: MutableStateFlow<CameraUiState> = MutableStateFlow(CameraUiState())
